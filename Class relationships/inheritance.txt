@@ -1,0 +1,27 @@
+Relationship: Inheritance
+
+class Vehicle
+{
+    + startEngine()
+}
+
+class Car extends Vehicle
+{
+    + startEngine()
+}
+
+Car IS-A Vehicle
+
+Notation:
+Solid line + hollow triangle arrow (Denoted by :  --|>)
+Public Inheritance
+    Public stays Public
+
+Protected Inheritance
+    Everything becomes Protected
+
+Private Inheritance
+    Everything becomes Private
+
+Private members of parent are
+never directly accessible in child.

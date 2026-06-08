@@ -1,0 +1,27 @@
+//multiple classes combien to make one class
+//but all can exist independently
+
+
+class Player
+{
+    - playerId
+    - name
+}
+
+class Team
+{
+    - players : List<Player>
+
+    Team(players : List<Player>)
+    {
+        this.players = players;
+    }
+}
+
+Team has Players
+Players can exist independently
+Team ◇---------- Player
+(◇ = hollow diamond)
+
+=> Aggregation
+(Aggregation → Has-A (Weak Ownership))

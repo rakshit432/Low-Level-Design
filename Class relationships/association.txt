@@ -1,0 +1,22 @@
+class Vehicle
+{
+    + start()
+}
+
+class Driver
+{
+    + drive(vehicle : Vehicle)
+    {
+        vehicle.start();
+    }
+}
+
+Association → Uses-A / Knows-A 
+
+WHY Association ? ..
+Driver only uses Vehicle.
+Driver does not store Vehicle.
+Driver does not own Vehicle.
+Driver --> Vehicle
+
+(Denoted by -->)
