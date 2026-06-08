@@ -1,0 +1,16 @@
+OOP PILLARS
+-----------
+
+Abstraction
+- Hides implementation details.
+
+Encapsulation
+- Hides data using access specifiers.
+
+Inheritance
+- Acquires properties of another class.
+- IS-A relationship.
+
+Polymorphism
+- One interface, many forms.
+- Same function, different behavior.

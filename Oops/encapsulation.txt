@@ -1,0 +1,20 @@
+ENCAPSULATION
+-------------
+
+Definition:
+Hide data and allow controlled access.
+
+Pseudocode:
+
+class Account
+{
+private:
+    balance;
+
+public:
+    deposit();
+    getBalance();
+}
+
+Memory:
+Hide DATA

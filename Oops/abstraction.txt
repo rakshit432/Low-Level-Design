@@ -1,0 +1,20 @@
+ABSTRACTION
+-----------
+Definition:
+Hide implementation, show functionality.
+
+Pseudocode:
+
+class Car
+{
+    + startEngine()
+}
+
+Car car;
+car.startEngine();
+
+Memory:
+Hide HOW
+
+
+--------------------------------
