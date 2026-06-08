@@ -1,0 +1,30 @@
+POLYMORPHISM
+------------
+
+One Interface, Many Forms
+
+1. Static Polymorphism (Compile Time)
+   - Function Overloading
+   - Operator Overloading
+
+   Example:
+   add(int a, int b)
+   add(int a, int b, int c)
+
+2. Dynamic Polymorphism (Run Time)
+   - Function Overriding
+   - Virtual Functions
+
+   Example:
+   class Animal
+   {
+       virtual sound();
+   }
+
+   class Dog : Animal
+   {
+       sound();
+   }
+
+   Animal* a = new Dog();
+   a->sound();   // Dog's sound() called at runtime .
