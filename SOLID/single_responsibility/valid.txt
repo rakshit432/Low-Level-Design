@@ -1,0 +1,64 @@
+Single Responsibility Principle (SRP)
+
+Ek class ke paas sirf ek responsibility honi chahiye.
+
+---------------------------------------------------------
+
+class Product
+{
+    string name;
+    int price;
+
+    Product(n, p)
+    {
+        name = n;
+        price = p;
+    }
+}
+
+class ShoppingCart
+{
+    vector<Product> products;
+
+    func addProduct(Product p)
+    {
+        products.push_back(p);
+    }
+
+    func getProducts()
+    {
+        return products;
+    }
+
+    func calculateTotal()
+    {
+        total = 0;
+
+        for(product : products)
+        {
+            total += product.price;
+        }
+
+        return total;
+    }
+}
+
+class ShoppingCartPrinter
+{
+    ShoppingCart* cart;
+
+    func printInvoice()
+    {
+        // Print products and total price
+    }
+}
+
+class ShoppingCartStorage
+{
+    ShoppingCart* cart;
+
+    func saveToDatabase()
+    {
+        // Save cart to DB
+    }
+}
