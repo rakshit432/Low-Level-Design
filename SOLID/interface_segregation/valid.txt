@@ -1,0 +1,33 @@
+Interface Segregation Principle (ISP)
+
+Clients should not be forced to depend
+on methods they do not use.
+
+--------------------------------------------------
+
+interface TwoDimensionalShape
+{
+    area();
+}
+
+interface ThreeDimensionalShape
+{
+    area();
+    volume();
+}
+
+class Square implements TwoDimensionalShape
+{
+    area();
+}
+
+class Rectangle implements TwoDimensionalShape
+{
+    area();
+}
+
+class Cube implements ThreeDimensionalShape
+{
+    area();
+    volume();
+}
