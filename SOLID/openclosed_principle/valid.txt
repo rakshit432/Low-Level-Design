@@ -1,0 +1,59 @@
+Open Closed Principle (OCP)
+
+Open for Extension
+Closed for Modification
+
+--------------------------------------------------
+
+class Product
+{
+    string name;
+    int price;
+}
+
+class ShoppingCart
+{
+    List<Product> products;
+
+    func addProduct(Product p)
+
+    func getProducts()
+
+    func calculateTotal()
+}
+
+class ShoppingCartPrinter
+{
+    ShoppingCart* cart;
+
+    func printInvoice()
+}
+
+interface Persistence
+{
+    save(ShoppingCart cart);
+}
+
+class SQLPersistence implements Persistence
+{
+    func save(ShoppingCart cart)
+    {
+        print("Saving to SQL DB");
+    }
+}
+
+class MongoPersistence implements Persistence
+{
+    func save(ShoppingCart cart)
+    {
+        print("Saving to MongoDB");
+    }
+}
+
+class FilePersistence implements Persistence
+{
+    func save(ShoppingCart cart)
+    {
+        print("Saving to File");
+    }
+}
