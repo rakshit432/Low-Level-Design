@@ -1,0 +1,42 @@
+Liskov Substitution Principle (LSP)
+
+Derived classes should be replaceable with their base type
+without breaking program behavior.
+
+--------------------------------------------------
+
+interface DepositOnlyAccount
+{
+    deposit(amount);
+}
+
+interface WithdrawableAccount
+{
+    deposit(amount);
+    withdraw(amount);
+}
+
+class SavingAccount implements WithdrawableAccount
+{
+    deposit(amount);
+    withdraw(amount);
+}
+
+class CurrentAccount implements WithdrawableAccount
+{
+    deposit(amount);
+    withdraw(amount);
+}
+
+class FixedTermAccount implements DepositOnlyAccount
+{
+    deposit(amount);
+}
+
+class BankClient
+{
+    List<WithdrawableAccount> withdrawableAccounts;
+    List<DepositOnlyAccount> depositOnlyAccounts;
+
+    processTransactions();
+}

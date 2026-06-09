@@ -1,0 +1,21 @@
+interface Account
+{
+    deposit(amount);
+    withdraw(amount);
+}
+
+class SavingAccount implements Account
+{
+    deposit(amount);
+    withdraw(amount);
+}
+
+class FixedTermAccount implements Account
+{
+    deposit(amount);
+
+    withdraw(amount)
+    {
+        throw Error("Withdrawal not allowed");
+    }
+}
