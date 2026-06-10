@@ -1,65 +1,49 @@
+# DSP VIOLATED
+
 classDiagram
 
-%% =========================
-%% DIP VIOLATED
-%% =========================
-
-class UserService {
-    -sqlDb : MySQLDatabase
-    -mongoDb : MongoDBDatabase
-    +storeUserToSQL(user : String) void
-    +storeUserToMongo(user : String) void
+class MySQLDatabase{
+    +saveToSQL(data : String)
 }
 
-class MySQLDatabase {
-    +saveToSQL(data : String) void
+class MongoDBDatabase{
+    +saveToMongo(data : String)
 }
 
-class MongoDBDatabase {
-    +saveToMongo(data : String) void
+class UserService{
+    -MySQLDatabase sqlDb
+    -MongoDBDatabase mongoDb
+    +storeUserToSQL(user : String)
+    +storeUserToMongo(user : String)
 }
 
-UserService *-- MySQLDatabase : tightly coupled
-UserService *-- MongoDBDatabase : tightly coupled
+UserService --> MySQLDatabase : direct dependency
+UserService --> MongoDBDatabase : direct dependency
 
-%% =========================
-%% DIP FOLLOWED
-%% =========================
 
-class Db {
+ # DSP FOLLOWED
+
+classDiagram
+
+class Db{
     <<interface>>
-    +save_to_db(data : String) void
+    +save_to_db(data : String)
 }
 
-class SAVE_SQL {
-    +save_to_db(data : String) void
+class SAVE_SQL{
+    +save_to_db(data : String)
 }
 
-class SAVE_MDB {
-    +save_to_db(data : String) void
+class SAVE_MDB{
+    +save_to_db(data : String)
 }
 
-class App {
-    -db : Db
-    +main() void
+class App{
+    -Db db
+    +main()
 }
 
 Db <|.. SAVE_SQL
 Db <|.. SAVE_MDB
-App --> Db : uses abstraction
 
-note for UserService
-"VIOLATION:
-High-level module depends
-directly on concrete classes.
-Any new database requires
-modification in UserService."
-end note
-
-note for App
-"FOLLOWED:
-High-level module depends
-only on Db abstraction.
-Database implementations
-can be swapped easily."
-end note
+App --> Db : depends on abstraction
