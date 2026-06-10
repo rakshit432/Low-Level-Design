@@ -1,0 +1,50 @@
+interface PaymentMethod
+{
+    pay(amount);
+}
+
+class CreditCardPayment implements PaymentMethod
+{
+    pay(amount)
+    {
+        print("Paid using Credit Card");
+    }
+}
+
+class UPIPayment implements PaymentMethod
+{
+    pay(amount)
+    {
+        print("Paid using UPI");
+    }
+}
+
+class PayPalPayment implements PaymentMethod
+{
+    pay(amount)
+    {
+        print("Paid using PayPal");
+    }
+}
+
+class PaymentService
+{
+    CreditCardPayment creditCard;
+    UPIPayment upi;
+    PayPalPayment paypal;
+
+    payByCreditCard(amount)
+    {
+        creditCard.pay(amount);
+    }
+
+    payByUPI(amount)
+    {
+        upi.pay(amount);
+    }
+
+    payByPayPal(amount)
+    {
+        paypal.pay(amount);
+    }
+}

@@ -1,0 +1,43 @@
+interface PaymentStrategy
+{
+    pay(amount);
+}
+
+class CreditCardPayment implements PaymentStrategy
+{
+    pay(amount)
+    {
+        print("Paid using Credit Card");
+    }
+}
+
+class UPIPayment implements PaymentStrategy
+{
+    pay(amount)
+    {
+        print("Paid using UPI");
+    }
+}
+
+class PayPalPayment implements PaymentStrategy
+{
+    pay(amount)
+    {
+        print("Paid using PayPal");
+    }
+}
+
+class PaymentService
+{
+    PaymentStrategy strategy;
+
+    setPaymentStrategy(PaymentStrategy strategy)
+    {
+        this.strategy = strategy;
+    }
+
+    processPayment(amount)
+    {
+        strategy.pay(amount);
+    }
+}
