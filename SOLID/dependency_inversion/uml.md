@@ -1,5 +1,6 @@
-# DSP VIOLATED
+# DIP Violated
 
+```mermaid
 classDiagram
 
 class MySQLDatabase{
@@ -19,10 +20,15 @@ class UserService{
 
 UserService --> MySQLDatabase : direct dependency
 UserService --> MongoDBDatabase : direct dependency
+```
 
+**Problem:** UserService directly depends on concrete database classes.
 
- # DSP FOLLOWED
+---
 
+# DIP Followed
+
+```mermaid
 classDiagram
 
 class Db{
@@ -47,3 +53,6 @@ Db <|.. SAVE_SQL
 Db <|.. SAVE_MDB
 
 App --> Db : depends on abstraction
+```
+
+**Solution:** App depends on the `Db` interface rather than concrete implementations.
