@@ -1,0 +1,27 @@
+class SaveToSQLDB
+{
+    func save_sql(string s)
+    {
+        print("Saving to SQL: " + s);
+    }
+}
+
+class SaveToMongoDB
+{
+    func save_mongo(string s)
+    {
+        print("Saving to MongoDB: " + s);
+    }
+}
+
+class App
+{
+    func main()
+    {
+        SaveToSQLDB sq = new SaveToSQLDB();
+        sq.save_sql("something something");
+
+        SaveToMongoDB md = new SaveToMongoDB();
+        md.save_mongo("someting something");
+    }
+}

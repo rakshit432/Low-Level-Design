@@ -1,0 +1,36 @@
+// Abstraction
+interface Db
+{
+    save_to_db(string s);
+}
+
+// Low-level module: SQL Database
+class SAVE_SQL implements Db
+{
+    save_to_db(string s)
+    {
+        print("Saving data to SQL Database");
+    }
+}
+
+// Low-level module: MongoDB Database
+class SAVE_MDB implements Db
+{
+    save_to_db(string s)
+    {
+        print("Saving data to MongoDB");
+    }
+}
+
+// High-level module
+class App
+{
+    func main()
+    {
+        // Depend on abstraction, not concrete class
+        Db db = new SAVE_MDB();
+
+        // Same method works for any database implementation
+        db.save_to_db("Aditya");
+    }
+}
