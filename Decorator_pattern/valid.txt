@@ -1,0 +1,120 @@
+interface Coffee
+{
+    getDescription()
+    getCost()
+}
+
+--------------------------------------------------
+
+class Espresso implements Coffee
+{
+    getDescription()
+    {
+        return "Espresso"
+    }
+
+    getCost()
+    {
+        return 3
+    }
+}
+
+--------------------------------------------------
+
+class Cappuccino implements Coffee
+{
+    getDescription()
+    {
+        return "Cappuccino"
+    }
+
+    getCost()
+    {
+        return 5
+    }
+}
+
+--------------------------------------------------
+
+abstract class CoffeeDecorator implements Coffee
+{
+    protected Coffee coffee
+
+    constructor(Coffee coffee)
+    {
+        this.coffee = coffee
+    }
+}
+
+--------------------------------------------------
+
+class MilkDecorator extends CoffeeDecorator
+{
+    constructor(Coffee coffee)
+    {
+        super(coffee)
+    }
+
+    getDescription()
+    {
+        return coffee.getDescription() + ", Milk"
+    }
+
+    getCost()
+    {
+        return coffee.getCost() + 1
+    }
+}
+
+--------------------------------------------------
+
+class VanillaDecorator extends CoffeeDecorator
+{
+    constructor(Coffee coffee)
+    {
+        super(coffee)
+    }
+
+    getDescription()
+    {
+        return coffee.getDescription() + ", Vanilla"
+    }
+
+    getCost()
+    {
+        return coffee.getCost() + 2
+    }
+}
+
+--------------------------------------------------
+
+main()
+{
+    Coffee coffee = new Espresso()
+
+    coffee = new MilkDecorator(coffee)
+
+    coffee = new VanillaDecorator(coffee)
+
+    print(coffee.getDescription())
+    // Espresso, Milk, Vanilla
+
+    print(coffee.getCost())
+    // 6
+}
+
+NOTE :
+
+Decorator uses:
+
+1. Inheritance
+   CoffeeDecorator implements Coffee
+
+2. Composition
+   CoffeeDecorator has a Coffee object
+
+Intent:
+Add new features/responsibilities to an object dynamically at runtime
+without modifying existing code.
+Produces a recursive action among various classes leading to change in features of object at 
+runtime .

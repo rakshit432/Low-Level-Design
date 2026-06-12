@@ -1,0 +1,45 @@
+class CoffeeShop
+{
+    orderCoffee(name)
+    {
+        if(name == "Espresso")
+            return Espresso
+
+        else if(name == "Cappuccino")
+            return Cappuccino
+
+        else if(name == "Espresso + Vanilla")
+            return EspressoWithVanilla
+
+        else if(name == "Espresso + Milk")
+            return EspressoWithMilk
+
+        else if(name == "Espresso + Milk + Vanilla")
+            return EspressoWithMilkAndVanilla
+
+        else if(name == "Cappuccino + Milk + Vanilla")
+            return CappuccinoWithMilkAndVanilla
+
+        ...
+    }
+}
+
+
+NOTES :
+
+1. Tight Coupling
+   CoffeeShop knows every coffee combination.
+
+2. Violates OCP
+   New topping => modify CoffeeShop.
+
+3. Class Explosion
+   EspressoWithMilk
+   EspressoWithVanilla
+   EspressoWithMilkAndVanilla
+   CappuccinoWithMilk
+   CappuccinoWithVanilla
+   ...
+
+4. Not Scalable
+   n toppings => huge number of combinations.
