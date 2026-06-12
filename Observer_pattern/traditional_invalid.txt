@@ -1,0 +1,43 @@
+class YoutubeChannel
+{
+    List<Subscriber> subscribers
+
+    addSubscriber(subscriber)
+    removeSubscriber(subscriber)
+
+    upload(video)
+    {
+        print("Uploading Video")
+        notifySubscribers(video)
+    }
+
+    notifySubscribers(video)
+    {
+        for each subscriber in subscribers
+        {
+            subscriber.update(video)
+        }
+    }
+}
+
+/*
+Without Observer:
+
+upload(video)
+{
+    sendEmail(video)
+    sendSMS(video)
+    sendPush(video)
+}
+
+Problems:
+1. Tight Coupling
+2. Violates OCP -> New notification type => modify YoutubeChannel
+3. Violates SRP -> Upload + Notification logic in same class
+
+Observer solves:
+"Who should be notified?"
+
+Strategy solves:
+"How should they be notified?" (Email/SMS/Push/WhatsApp)
+*/

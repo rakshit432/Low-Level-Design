@@ -1,0 +1,81 @@
+interface Subscriber
+{
+    update(videoTitle)
+}
+
+class YoutubeSubscriber implements Subscriber
+{
+    name
+
+    constructor(name)
+    {
+        this.name = name
+    }
+
+    update(videoTitle)
+    {
+        print(name + " received notification for " + videoTitle)
+    }
+}
+
+----------------------------------------------------
+
+interface Channel
+{
+    addSubscriber(subscriber)
+    removeSubscriber(subscriber)
+    notifySubscribers()
+    uploadVideo(videoTitle)
+}
+
+class YoutubeChannel implements Channel
+{
+    channelName
+    subscribers : List<Subscriber>
+
+    constructor(channelName)
+    {
+        this.channelName = channelName
+        subscribers = []
+    }
+
+    addSubscriber(subscriber)
+    {
+        subscribers.add(subscriber)
+    }
+
+    removeSubscriber(subscriber)
+    {
+        subscribers.remove(subscriber)
+    }
+
+    uploadVideo(videoTitle)
+    {
+        print("Uploading : " + videoTitle)
+
+        notifySubscribers(videoTitle)
+    }
+
+    notifySubscribers(videoTitle)
+    {
+        for each subscriber in subscribers
+        {
+            subscriber.update(videoTitle)
+        }
+    }
+}
+
+----------------------------------------------------
+
+main()
+{
+    channel = new YoutubeChannel("CodeWithRakshit")
+
+    sub1 = new YoutubeSubscriber("Aman")
+    sub2 = new YoutubeSubscriber("Rahul")
+
+    channel.addSubscriber(sub1)
+    channel.addSubscriber(sub2)
+
+    channel.uploadVideo("Observer Design Pattern")
+}
