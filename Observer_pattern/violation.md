@@ -6,6 +6,11 @@ class YoutubeChannel {
     +sendEmail(video)
     +sendSMS(video)
     +sendPush(video)
+
+    Problems:
+    Tight Coupling
+    Violates SRP
+    Violates OCP
 }
 
 class Main {
@@ -13,16 +18,4 @@ class Main {
 }
 
 Main ..> YoutubeChannel : creates
-
-note for YoutubeChannel
-  Problems:
-  - Tight Coupling
-  - Violates SRP
-  - Violates OCP
-
-  New Notification:
-  WhatsApp/Slack
-
-  => Modify YoutubeChannel
-end note
 ```
