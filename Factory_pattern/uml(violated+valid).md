@@ -1,5 +1,6 @@
 # Violation (M-1)
 
+```mermaid
 classDiagram
 
 class Main_M1
@@ -12,10 +13,12 @@ Vehicle <|.. Truck
 
 Main_M1 --> Car : new Car()
 Main_M1 --> Truck : new Truck()
+```
 
 
 # Violation (M-2)
 
+```mermaid
 classDiagram
 
 class Main_M2
@@ -31,8 +34,11 @@ Vehicle <|.. Truck
 Main_M2 --> Car : if(type=="Car")
 Main_M2 --> Bike : if(type=="Bike")
 Main_M2 --> Truck : if(type=="Truck")
+```
 
 # Ultimate Factory Design Pattern
+
+```mermaid
 
 classDiagram
 
@@ -57,3 +63,4 @@ Main --> Vehicle : use
 VehicleFactory --> Car : creates
 VehicleFactory --> Bike : creates
 VehicleFactory --> Truck : creates
+```
