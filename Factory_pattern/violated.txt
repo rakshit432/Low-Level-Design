@@ -1,0 +1,29 @@
+// M1: Direct Object Creation
+
+Vehicle v = new Car();
+Vehicle v2 = new Truck();
+
+/*
+Demerits:
+- Tight coupling with concrete classes
+- Difficult to maintain
+- Violates Open-Closed Principle
+- Object creation scattered everywhere
+*/
+
+
+// M2: Conditional Object Creation
+
+if(type == "Car")
+    v = new Car();
+else if(type == "Bike")
+    v = new Bike();
+
+/*
+Demerits:
+- Large if-else chains
+- Difficult to scale
+- Violates Open-Closed Principle
+- Tight coupling with all vehicle types
+- Harder to maintain
+*/

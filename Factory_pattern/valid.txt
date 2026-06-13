@@ -1,0 +1,91 @@
+```java
+// Vehicle Interface
+interface Vehicle
+{
+    start();
+    stop();
+}
+
+// Concrete Classes
+class Car implements Vehicle {}
+class Bike implements Vehicle {}
+class Truck implements Vehicle {}
+
+// Factory
+class VehicleFactory
+{
+    static Vehicle getVehicle(String type)
+    {
+        if(type == "Car")
+            return new Car();
+
+        if(type == "Bike")
+            return new Bike();
+
+        if(type == "Truck")
+            return new Truck();
+
+        return null;
+    }
+}
+
+// Main
+class Main
+{
+    public static void main(String[] args)
+    {
+        Vehicle vehicle = VehicleFactory.getVehicle("Car");
+
+        vehicle.start();
+        vehicle.stop();
+    }
+}
+```
+
+### Why Factory Pattern?
+
+**Problem in M1 (Direct Creation)**
+
+```java
+Vehicle v = new Car();
+Vehicle v2 = new Truck();
+```
+
+* Main class knows concrete classes.
+* Tight coupling.
+* Object creation scattered everywhere.
+* Hard to maintain when new vehicle types are added.
+
+**Problem in M2 (Conditional Creation)**
+
+```java
+if(type == "Car")
+    new Car();
+else if(type == "Bike")
+    new Bike();
+```
+
+* Long if-else chains.
+* Difficult to scale.
+* Main class handles creation logic.
+
+**Factory Solution**
+
+```java
+Vehicle v = VehicleFactory.getVehicle("Car");
+```
+
+* Object creation centralized.
+* Main class only knows Vehicle interface.
+* Lower coupling.
+* Easier maintenance.
+* Cleaner client code.
+
+### Demerits
+
+* Factory becomes large as types increase.
+* Still uses if-else/switch internally.
+* Adding new type requires modifying factory (OCP violation).
+
+```
+```
