@@ -1,0 +1,72 @@
+# Factory Method Pattern
+
+interface Vehicle
+{
+    start()
+    stop()
+}
+
+----------------------------------
+
+class Honda implements Vehicle
+{
+    start()
+    stop()
+}
+
+class Toyota implements Vehicle
+{
+    start()
+    stop()
+}
+
+class BMW implements Vehicle
+{
+    start()
+    stop()
+}
+
+----------------------------------
+
+interface VehicleFactory
+{
+    createVehicle()
+}
+
+----------------------------------
+
+class HondaFactory implements VehicleFactory
+{
+    createVehicle()
+    {
+        return new Honda()
+    }
+}
+
+class ToyotaFactory implements VehicleFactory
+{
+    createVehicle()
+    {
+        return new Toyota()
+    }
+}
+
+class BMWFactory implements VehicleFactory
+{
+    createVehicle()
+    {
+        return new BMW()
+    }
+}
+
+----------------------------------
+
+class Main
+{
+    VehicleFactory factory = new HondaFactory();
+
+    Vehicle vehicle = factory.createVehicle();
+
+    vehicle.start();
+    vehicle.stop();
+}

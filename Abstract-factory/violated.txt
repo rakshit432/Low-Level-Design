@@ -1,0 +1,84 @@
+# Factory Design Pattern
+
+## M1 : Direct Object Creation
+
+class Main
+{
+    Vehicle vehicle1 = new Honda();
+    Vehicle vehicle2 = new Maruti();
+    Vehicle vehicle3 = new Tata();
+}
+
+Issues:
+- Tight coupling with concrete classes
+- Main class depends on Honda, Maruti, Tata
+- Every new vehicle type requires modifying Main
+- Object creation logic is scattered
+- Difficult to maintain
+
+
+## M2 : Conditional Object Creation
+
+if(type == "Honda")
+    return new Honda();
+else if(type == "Maruti")
+    return new Maruti();
+else if(type == "Tata")
+    return new Tata();
+
+Issues:
+- Long if-else chains
+- Client knows all concrete classes
+- Difficult to scale
+- Hard to maintain
+- Violates Open-Closed Principle
+
+
+## Factory Pattern Solution
+
+interface Vehicle
+{
+    start();
+    stop();
+}
+
+class Honda implements Vehicle {}
+class Maruti implements Vehicle {}
+class Tata implements Vehicle {}
+
+class VehicleFactory
+{
+    getVehicle(type)
+    {
+        if(type == "Honda")
+            return new Honda();
+
+        if(type == "Maruti")
+            return new Maruti();
+
+        if(type == "Tata")
+            return new Tata();
+    }
+}
+
+class Main
+{
+    Vehicle vehicle =
+        VehicleFactory.getVehicle("Honda");
+
+    vehicle.start();
+}
+
+Advantages:
+- Centralized object creation
+- Loose coupling
+- Cleaner client code
+- Easier maintenance
+- Client depends on Vehicle abstraction
+
+Demerits:
+- Factory becomes large as types increase
+- Uses if-else/switch internally
+- Adding a new type requires modifying factory
+- Violates Open-Closed Principle
+- Not very scalable for large systems
