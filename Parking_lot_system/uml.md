@@ -1,5 +1,7 @@
 classDiagram
+
     %% Enums and Interfaces
+
     class DurationType {
         <<enumeration>>
         HOURS
@@ -17,6 +19,7 @@ classDiagram
     }
 
     %% Strategy Implementations
+
     class BasicHourlyRateStrategy {
         +calculateFee(vehicleType, duration, durationType) Double
     }
@@ -30,28 +33,28 @@ classDiagram
     }
 
     %% Vehicle Hierarchy
+
     class Vehicle {
         <<abstract>>
-        -String licensePlate
-        -String vehicleType
-        -ParkingFeeStrategy feeStrategy
+        -licensePlate : String
+        -vehicleType : String
+        -feeStrategy : ParkingFeeStrategy
         +calculateFee(duration, durationType) Double
     }
 
-    class CarVehicle {
-    }
+    class CarVehicle
 
-    class BikeVehicle {
-    }
+    class BikeVehicle
 
     %% Parking Spot Hierarchy
+
     class ParkingSpot {
         <<abstract>>
-        -int spotNumber
-        -boolean isOccupied
-        -String spotType
-        -Vehicle vehicle
-        +canParkVehicle(vehicle)* Boolean
+        -spotNumber : int
+        -isOccupied : boolean
+        -spotType : String
+        -vehicle : Vehicle
+        +canParkVehicle(vehicle) Boolean
         +parkVehicle(vehicle) Void
         +vacate() Void
     }
@@ -65,24 +68,29 @@ classDiagram
     }
 
     %% Main Management Class
+
     class ParkingLot {
-        -List~ParkingSpot~ parkingSpots
+        -parkingSpots : List~ParkingSpot~
         +findAvailableSpot(vehicleType) ParkingSpot
         +parkVehicle(vehicle) ParkingSpot
         +vacateSpot(spot, vehicle) Void
     }
 
     %% Relationships
-    ParkingFeeStrategy <|.. BasicHourlyRateStrategy : implements
-    PaymentStrategy <|.. CreditCardPayment : implements
-    PaymentStrategy <|.. CashPayment : implements
 
-    Vehicle <|-- CarVehicle : extends
-    Vehicle <|-- BikeVehicle : extends
-    Vehicle o-- ParkingFeeStrategy : uses strategy
+    ParkingFeeStrategy <|.. BasicHourlyRateStrategy
 
-    ParkingSpot <|-- CarParkingSpot : extends
-    ParkingSpot <|-- BikeParkingSpot : extends
-    ParkingSpot o-- Vehicle : parks 0..1
+    PaymentStrategy <|.. CreditCardPayment
+    PaymentStrategy <|.. CashPayment
 
-    ParkingLot *-- ParkingSpot : manages 1..*
+    Vehicle <|-- CarVehicle
+    Vehicle <|-- BikeVehicle
+
+    Vehicle o-- ParkingFeeStrategy : uses
+
+    ParkingSpot <|-- CarParkingSpot
+    ParkingSpot <|-- BikeParkingSpot
+
+    ParkingSpot o-- Vehicle : parks
+
+    ParkingLot *-- ParkingSpot : manages
