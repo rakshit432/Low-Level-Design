@@ -1,0 +1,127 @@
+ENUM DurationType:
+    HOURS
+    DAYS
+
+INTERFACE ParkingFeeStrategy:
+    METHOD calculateFee(vehicleType, duration, durationType) RETURNS Double
+
+INTERFACE PaymentStrategy:
+    METHOD processPayment(amount) RETURNS Void
+
+CLASS BasicHourlyRateStrategy IMPLEMENTS ParkingFeeStrategy:
+    METHOD calculateFee(vehicleType, duration, durationType):
+        IF durationType is HOURS:
+            RETURN Hourly rate specific to vehicleType * duration
+        ELSE:
+            RETURN Daily rate specific to vehicleType * duration
+
+CLASS CreditCardPayment IMPLEMENTS PaymentStrategy:
+    METHOD processPayment(amount):
+        PRINT "Processing credit card payment of $" + amount
+
+CLASS CashPayment IMPLEMENTS PaymentStrategy:
+    METHOD processPayment(amount):
+        PRINT "Processing cash payment of $" + amount
+
+ABSTRACT CLASS Vehicle:
+    PROPERTY licensePlate
+    PROPERTY vehicleType
+    PROPERTY feeStrategy
+
+    CONSTRUCTOR(licensePlate, vehicleType, feeStrategy):
+        SET this.licensePlate = licensePlate
+        SET this.vehicleType = vehicleType
+        SET this.feeStrategy = feeStrategy
+
+    METHOD calculateFee(duration, durationType):
+        RETURN feeStrategy.calculateFee(vehicleType, duration, durationType)
+
+CLASS CarVehicle EXTENDS Vehicle:
+    CONSTRUCTOR(licensePlate, vehicleType, feeStrategy):
+        SUPER(licensePlate, vehicleType, feeStrategy)
+
+CLASS BikeVehicle EXTENDS Vehicle:
+    CONSTRUCTOR(licensePlate, vehicleType, feeStrategy):
+        SUPER(licensePlate, vehicleType, feeStrategy)
+
+ABSTRACT CLASS ParkingSpot:
+    PROPERTY spotNumber
+    PROPERTY isOccupied DEFAULT False
+    PROPERTY vehicle DEFAULT Null
+    PROPERTY spotType
+
+    CONSTRUCTOR(spotNumber, spotType):
+        SET this.spotNumber = spotNumber
+        SET this.spotType = spotType
+
+    ABSTRACT METHOD canParkVehicle(vehicle) RETURNS Boolean
+
+    METHOD parkVehicle(vehicle):
+        IF isOccupied:
+            THROW Exception
+        IF NOT canParkVehicle(vehicle):
+            THROW Exception
+        
+        SET this.vehicle = vehicle
+        SET this.isOccupied = True
+
+    METHOD vacate():
+        IF NOT isOccupied:
+            THROW Exception
+        
+        SET this.vehicle = Null
+        SET this.isOccupied = False
+
+CLASS CarParkingSpot EXTENDS ParkingSpot:
+    CONSTRUCTOR(spotNumber):
+        SUPER(spotNumber, "Car")
+
+    METHOD canParkVehicle(vehicle):
+        RETURN vehicle.vehicleType equals "Car"
+
+CLASS BikeParkingSpot EXTENDS ParkingSpot:
+    CONSTRUCTOR(spotNumber):
+        SUPER(spotNumber, "Bike")
+
+    METHOD canParkVehicle(vehicle):
+        RETURN vehicle.vehicleType equals "Bike"
+
+CLASS ParkingLot:
+    PROPERTY parkingSpots
+
+    CONSTRUCTOR(spots):
+        SET parkingSpots = spots
+
+    METHOD findAvailableSpot(vehicleType) RETURNS ParkingSpot:
+        FOR EACH spot IN parkingSpots:
+            IF NOT spot.isOccupied AND spot.spotType equals vehicleType:
+                RETURN spot
+        RETURN Null
+
+    METHOD parkVehicle(vehicle) RETURNS ParkingSpot:
+        spot = findAvailableSpot(vehicle.vehicleType)
+        
+        IF spot is NOT Null:
+            spot.parkVehicle(vehicle)
+            RETURN spot
+        RETURN Null
+
+    METHOD vacateSpot(spot, vehicle):
+        IF spot is NOT Null AND spot.isOccupied AND spot.vehicle equals vehicle:
+            spot.vacate()
+
+CLASS ParkingSystemMain:
+    METHOD main():
+        CREATE List of ParkingSpots
+        CREATE ParkingLot(spots)
+
+        basicRates = NEW BasicHourlyRateStrategy()
+        myCar = NEW CarVehicle("XYZ-1234", "Car", basicRates)
+
+        parkedSpot = ParkingLot.parkVehicle(myCar)
+
+        IF parkedSpot is NOT Null:
+            fee = myCar.calculateFee(2, DurationType.HOURS)
+            payment = NEW CreditCardPayment()
+            payment.processPayment(fee)
+            ParkingLot.vacateSpot(parkedSpot, myCar)
