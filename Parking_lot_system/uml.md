@@ -1,96 +1,69 @@
+```mermaid
 classDiagram
 
-    %% Enums and Interfaces
+class DurationType {
+    <<enumeration>>
+    HOURS
+    DAYS
+}
 
-    class DurationType {
-        <<enumeration>>
-        HOURS
-        DAYS
-    }
+class ParkingFeeStrategy {
+    <<interface>>
+    +calculateFee()
+}
 
-    class ParkingFeeStrategy {
-        <<interface>>
-        +calculateFee(vehicleType, duration, durationType) Double
-    }
+class PaymentStrategy {
+    <<interface>>
+    +processPayment()
+}
 
-    class PaymentStrategy {
-        <<interface>>
-        +processPayment(amount) Void
-    }
+class BasicHourlyRateStrategy
+class CreditCardPayment
+class CashPayment
 
-    %% Strategy Implementations
+class Vehicle {
+    <<abstract>>
+    -licensePlate : String
+    -vehicleType : String
+    +calculateFee()
+}
 
-    class BasicHourlyRateStrategy {
-        +calculateFee(vehicleType, duration, durationType) Double
-    }
+class CarVehicle
+class BikeVehicle
 
-    class CreditCardPayment {
-        +processPayment(amount) Void
-    }
+class ParkingSpot {
+    <<abstract>>
+    -spotNumber : int
+    -isOccupied : boolean
+    -spotType : String
+    +canParkVehicle()
+    +parkVehicle()
+    +vacate()
+}
 
-    class CashPayment {
-        +processPayment(amount) Void
-    }
+class CarParkingSpot
+class BikeParkingSpot
 
-    %% Vehicle Hierarchy
+class ParkingLot {
+    +findAvailableSpot()
+    +parkVehicle()
+    +vacateSpot()
+}
 
-    class Vehicle {
-        <<abstract>>
-        -licensePlate : String
-        -vehicleType : String
-        -feeStrategy : ParkingFeeStrategy
-        +calculateFee(duration, durationType) Double
-    }
+ParkingFeeStrategy <|.. BasicHourlyRateStrategy
 
-    class CarVehicle
+PaymentStrategy <|.. CreditCardPayment
+PaymentStrategy <|.. CashPayment
 
-    class BikeVehicle
+Vehicle <|-- CarVehicle
+Vehicle <|-- BikeVehicle
 
-    %% Parking Spot Hierarchy
+Vehicle o-- ParkingFeeStrategy
 
-    class ParkingSpot {
-        <<abstract>>
-        -spotNumber : int
-        -isOccupied : boolean
-        -spotType : String
-        -vehicle : Vehicle
-        +canParkVehicle(vehicle) Boolean
-        +parkVehicle(vehicle) Void
-        +vacate() Void
-    }
+ParkingSpot <|-- CarParkingSpot
+ParkingSpot <|-- BikeParkingSpot
 
-    class CarParkingSpot {
-        +canParkVehicle(vehicle) Boolean
-    }
+ParkingSpot o-- Vehicle
 
-    class BikeParkingSpot {
-        +canParkVehicle(vehicle) Boolean
-    }
-
-    %% Main Management Class
-
-    class ParkingLot {
-        -parkingSpots : List~ParkingSpot~
-        +findAvailableSpot(vehicleType) ParkingSpot
-        +parkVehicle(vehicle) ParkingSpot
-        +vacateSpot(spot, vehicle) Void
-    }
-
-    %% Relationships
-
-    ParkingFeeStrategy <|.. BasicHourlyRateStrategy
-
-    PaymentStrategy <|.. CreditCardPayment
-    PaymentStrategy <|.. CashPayment
-
-    Vehicle <|-- CarVehicle
-    Vehicle <|-- BikeVehicle
-
-    Vehicle o-- ParkingFeeStrategy : uses
-
-    ParkingSpot <|-- CarParkingSpot
-    ParkingSpot <|-- BikeParkingSpot
-
-    ParkingSpot o-- Vehicle : parks
-
-    ParkingLot *-- ParkingSpot : manages
+ParkingLot *-- ParkingSpot
+```
