@@ -1,0 +1,190 @@
+ENUM Symbol
+    X
+    O
+    EMPTY
+
+CLASS Position
+    row
+    col
+
+---------------------------------------------------
+STRATEGY PATTERN
+---------------------------------------------------
+
+INTERFACE PlayerStrategy
+    METHOD makeMove(board) : Position
+
+CLASS HumanPlayerStrategy IMPLEMENTS PlayerStrategy
+
+    METHOD makeMove(board)
+        get row and col from user
+        return Position(row, col)
+
+CLASS EasyAIPlayerStrategy IMPLEMENTS PlayerStrategy
+
+    METHOD makeMove(board)
+        return random valid position
+
+CLASS MinimaxAIPlayerStrategy IMPLEMENTS PlayerStrategy
+
+    METHOD makeMove(board)
+        return best move using minimax
+
+---------------------------------------------------
+PLAYER
+---------------------------------------------------
+
+CLASS Player
+
+    symbol
+    strategy
+
+    CONSTRUCTOR(symbol, strategy)
+
+    METHOD makeMove(board)
+        return strategy.makeMove(board)
+
+---------------------------------------------------
+FACTORY PATTERN
+---------------------------------------------------
+
+INTERFACE PlayerFactory
+
+    METHOD createPlayer(type, symbol)
+
+CLASS SimplePlayerFactory IMPLEMENTS PlayerFactory
+
+    METHOD createPlayer(type, symbol)
+
+        IF type = HUMAN
+            return Player(symbol,
+                          HumanPlayerStrategy)
+
+        ELSE IF type = EASY_AI
+            return Player(symbol,
+                          EasyAIPlayerStrategy)
+
+        ELSE
+            return Player(symbol,
+                          MinimaxAIPlayerStrategy)
+
+---------------------------------------------------
+STATE PATTERN
+---------------------------------------------------
+
+INTERFACE GameState
+
+    METHOD next()
+    METHOD isGameOver()
+
+CLASS XTurnState
+CLASS OTurnState
+CLASS XWonState
+CLASS OWonState
+CLASS DrawState
+
+CLASS GameContext
+
+    currentState
+
+    METHOD setState(state)
+
+    METHOD next(player, hasWon)
+
+---------------------------------------------------
+OBSERVER PATTERN
+---------------------------------------------------
+
+INTERFACE GameEventListener
+
+    METHOD onMoveMade(position, symbol)
+
+    METHOD onGameStateChanged(state)
+
+CLASS ConsoleGameEventListener
+    display move updates
+    display state updates
+
+---------------------------------------------------
+BOARD
+---------------------------------------------------
+
+CLASS Board
+
+    grid
+    listeners
+
+    METHOD addListener(listener)
+
+    METHOD isValidMove(position)
+
+    METHOD makeMove(position, symbol)
+
+        place symbol
+
+        notify listeners
+
+    METHOD checkGameState()
+
+        check rows
+        check columns
+        check diagonals
+
+        IF winner found
+            return winner state
+
+        IF board full
+            return draw state
+
+        return in-progress state
+
+---------------------------------------------------
+GAME
+---------------------------------------------------
+
+INTERFACE BoardGame
+
+    METHOD play()
+
+CLASS TicTacToeGame IMPLEMENTS BoardGame
+
+    board
+    players
+    currentPlayer
+
+    METHOD play()
+
+        WHILE game not over
+
+            player = currentPlayer
+
+            move = player.makeMove(board)
+
+            board.makeMove(move,
+                           player.symbol)
+
+            gameState =
+                board.checkGameState()
+
+            IF game not over
+                switch player
+
+        announce result
+
+---------------------------------------------------
+MAIN
+---------------------------------------------------
+
+factory = SimplePlayerFactory()
+
+playerX =
+    factory.createPlayer(HUMAN, X)
+
+playerO =
+    factory.createPlayer(EASY_AI, O)
+
+game =
+    TicTacToeGame(boardSize=3,
+                  players=[playerX, playerO])
+
+game.play()
