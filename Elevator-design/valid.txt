@@ -1,0 +1,216 @@
+// ============================
+// Scheduling Strategy
+// ============================
+
+interface SchedulingStrategy {
+    int getNextStop(Elevator elevator);
+}
+
+class FCFSSchedulingStrategy implements SchedulingStrategy {
+
+    int getNextStop(Elevator elevator) {
+        return elevator.requestQueue.front();
+    }
+}
+
+class ScanSchedulingStrategy implements SchedulingStrategy {
+
+    int getNextStop(Elevator elevator) {
+        // continue serving requests in current direction
+        // reverse only when no request exists ahead
+    }
+}
+
+class LookSchedulingStrategy implements SchedulingStrategy {
+
+    int getNextStop(Elevator elevator) {
+        // move only till last request in current direction
+        // then switch direction
+    }
+}
+
+
+// ============================
+// Observer Pattern
+// ============================
+
+interface ElevatorObserver {
+
+    void onStateChange(Elevator elevator);
+
+    void onFloorChange(Elevator elevator);
+}
+
+class ElevatorDisplay implements ElevatorObserver {
+
+    void onStateChange(Elevator elevator) {
+        print(elevator.state);
+    }
+
+    void onFloorChange(Elevator elevator) {
+        print(elevator.currentFloor);
+    }
+}
+
+
+// ============================
+// Request
+// ============================
+
+class ElevatorRequest {
+
+    int floor;
+    Direction direction;
+
+    void execute() {
+        // process request
+    }
+}
+
+
+// ============================
+// Elevator
+// ============================
+
+class Elevator {
+
+    int id;
+    int currentFloor;
+
+    Direction direction;
+    ElevatorState state;
+
+    Queue<ElevatorRequest> requests;
+
+    List<ElevatorObserver> observers;
+
+    void addRequest(ElevatorRequest request) {
+        requests.add(request);
+    }
+
+    void move() {
+
+        state = MOVING;
+        notifyStateChange();
+
+        while(!requests.isEmpty()) {
+
+            int nextFloor =
+                schedulingStrategy.getNextStop(this);
+
+            travelTo(nextFloor);
+
+            currentFloor = nextFloor;
+
+            notifyFloorChange();
+        }
+
+        state = IDLE;
+        notifyStateChange();
+    }
+
+    void attachObserver(ElevatorObserver observer) {
+        observers.add(observer);
+    }
+
+    void notifyStateChange() {
+        for(observer : observers)
+            observer.onStateChange(this);
+    }
+
+    void notifyFloorChange() {
+        for(observer : observers)
+            observer.onFloorChange(this);
+    }
+}
+
+
+// ============================
+// Elevator Controller
+// ============================
+
+class ElevatorController {
+
+    List<Elevator> elevators;
+
+    SchedulingStrategy strategy;
+
+    void requestElevator(
+        int floor,
+        Direction direction
+    ) {
+
+        Elevator elevator =
+            findBestElevator(floor);
+
+        ElevatorRequest request =
+            new ElevatorRequest(floor, direction);
+
+        elevator.addRequest(request);
+    }
+
+    void requestFloor(
+        Elevator elevator,
+        int destinationFloor
+    ) {
+
+        ElevatorRequest request =
+            new ElevatorRequest(
+                destinationFloor,
+                elevator.direction
+            );
+
+        elevator.addRequest(request);
+    }
+}
+
+
+// ============================
+// Building
+// ============================
+
+class Building {
+
+    ElevatorController controller;
+
+    List<Floor> floors;
+
+    List<Elevator> elevators;
+
+    Building(int totalFloors,
+             int totalElevators) {
+
+        createFloors();
+        createElevators();
+
+        controller =
+            new ElevatorController(elevators);
+    }
+}
+
+
+// ============================
+// Client
+// ============================
+
+main() {
+
+    Building building =
+        new Building(10, 3);
+
+    building.controller.requestElevator(
+        5,
+        UP
+    );
+
+    building.controller.requestFloor(
+        elevator,
+        9
+    );
+}
+
+// SCAN: Ignores reverse-direction requests until
+// reaching the boundary floor.
+
+// LOOK: Considers pending reverse-direction requests
+// and reverses after serving the last request ahead.
